@@ -71,6 +71,42 @@ public class GildedRoseTest {
         assertEquals(2, item.sellIn);
     }
 
+    @Test
+    public void qualityOfAnItemNeverOverFifty() {
+        Item item = new Item("Aged Brie", 12, 50);
+        GildedRose gildedRose = new GildedRose(new Item[]{item});
+
+        gildedRose.updateQuality();
+        assertEquals(50, item.quality);
+
+    }
+
+    @Test
+    public void qualityIncreasesByTwoOverTimeForBackstagePassesWhenSellInAreLessThanTen() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 12, 3);
+        GildedRose gildedRose = new GildedRose(new Item[]{item});
+
+        gildedRose.updateQuality();
+        assertEquals(4, item.quality);
+        gildedRose.updateQuality();
+        assertEquals(5, item.quality);
+        gildedRose.updateQuality();
+        assertEquals(7, item.quality);
+        gildedRose.updateQuality();
+        assertEquals(9, item.quality);
+    }
+
+    @Test
+    public void qualityIncreasesByThreeOverTimeForBackstagePassesWhenSellInAreLessThanFive() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 6, 3);
+        GildedRose gildedRose = new GildedRose(new Item[]{item});
+
+        gildedRose.updateQuality();
+        assertEquals(5, item.quality);
+        gildedRose.updateQuality();
+        assertEquals(8, item.quality);
+    }
+
     private void sellInDecreasesEveryDayForItem(Item item) {
         GildedRose gildedRose = new GildedRose(new Item[]{item});
 
