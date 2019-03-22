@@ -107,6 +107,25 @@ public class GildedRoseTest {
         assertEquals(8, item.quality);
     }
 
+
+    @Test
+    public void conjuredItemsDegradeTwiceAsFast(){
+        Item item = new Item("Conjured", 2, 4);
+        GildedRose gildedRose = new GildedRose(new Item[]{item});
+
+
+        gildedRose.updateQuality();
+        assertEquals(2, item.quality);
+        gildedRose.updateQuality();
+        assertEquals(0, item.quality);
+        gildedRose.updateQuality();
+        assertEquals(0, item.quality);
+
+
+
+    }
+
+
     private void sellInDecreasesEveryDayForItem(Item item) {
         GildedRose gildedRose = new GildedRose(new Item[]{item});
 
