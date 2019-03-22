@@ -9,34 +9,48 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (!item.name.equals("Aged Brie")
-                    && !isBackstageItem(item)) {
+            if (!item.name.equals("Aged Brie") && !isBackstageItem(item)) {
                 decreasingQualityNotLessThanZero(item);
-            } else {
+
+                decrementSellinIfItsNotLegendary(item);
+
+                if (item.sellIn < 0) {
+                    decreasingQualityNotLessThanZero(item);
+                }
+            }
+
+            if (item.name.equals("Aged Brie")) {
                 if (item.quality < 50) {
                     incrementingQuality(item,  1);
-
-                    if (isBackstageItem(item)) {
-                        increaseBasedOnSellIn(item);
-                    }
                 }
-            }
 
-            if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                item.sellIn = item.sellIn - 1;
-            }
-
-            if (item.sellIn < 0) {
-                if (!item.name.equals("Aged Brie")) {
-                    if (!isBackstageItem(item)) {
-                        decreasingQualityNotLessThanZero(item);
-                    } else {
-                        incrementingQuality(item, - item.quality);
-                    }
-                } else {
+                if (item.sellIn < 0) {
                     increaseIfNotMaxQualityReached(item, 1);
                 }
+
+                decrementSellinIfItsNotLegendary(item);
+
             }
+
+            if (isBackstageItem(item)) {
+                if (item.quality < 50) {
+                    incrementingQuality(item, 1);
+                    increaseBasedOnSellIn(item);
+                }
+
+                if (item.sellIn < 0) {
+                    incrementingQuality(item, - item.quality);
+                }
+
+                decrementSellinIfItsNotLegendary(item);
+            }
+
+        }
+    }
+
+    private void decrementSellinIfItsNotLegendary(Item item) {
+        if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+            item.sellIn = item.sellIn - 1;
         }
     }
 
